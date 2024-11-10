@@ -3,6 +3,7 @@ import {List} from './List';
 import {Form} from './Form';
 import { getLanguages } from './const/languages';
 import styled from 'styled-components';
+import { withLoading } from './hoc/withLoading';
 
 const Header = styled.header`
   display: flex;
@@ -29,18 +30,8 @@ class App extends React.Component {
     super(props);
     this.state = {
       tab: 'list',
-      langs: []
+      langs: props.data,
     };
-  }
-
-  componentDidMount(){
-    console.log('App.js:componentDidMount');
-    this.fetchLanguages();
-  }
-
-  async fetchLanguages(){
-    const langs = await getLanguages();
-    this.setState({langs: langs})
   }
 
   addLang(lang){
@@ -68,4 +59,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withLoading(App,getLanguages);
